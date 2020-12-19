@@ -1,41 +1,45 @@
 import express from "express";
-import * as socketio from "socket.io";
 import { Socket } from "socket.io";
-import { checkIp, checkToken } from "./utils/token-check";
-import emit from "./routes/emit";
+import { checkAccess, checkIp } from "./utils/permissions";
 import config from "./config";
+import { IJoinData } from "./interfaces/join";
+import { IEmitData } from "./interfaces/emit";
+import { AxiosResponse } from "axios";
 
 const app = express();
 app.set("trust proxy", true);
-app.get("/emit", (req, res) => {
+app.use(express.json()); // to support JSON-encoded bodies
+app.use(
+  express.urlencoded({
+    // to support URL-encoded bodies
+    extended: true,
+  })
+);
+
+app.post("/emit", (req, res) => {
   const serverIp = req.ip;
   const applicationConfig = checkIp(serverIp);
-  if (applicationConfig !== undefined) {
-    if (req.query.hasOwnProperty("token")) {
-      const token = req.query.token;
-      if (token === applicationConfig.auth_token) {
-        // auth checked. connection is safe
-        if (req.query.hasOwnProperty("channel")) {
-          if (req.query.hasOwnProperty("data")) {
-            const { channel, data } = req.query;
-            io.emit(`${applicationConfig.name}/${channel}`, data);
-            console.log(`emited on ${applicationConfig.name}/${channel}`);
-            res.send("ok");
-          } else {
-            res.status(422).send("data is required");
-          }
-        } else {
-          res.status(422).send("channel is required");
-        }
-      } else {
-        res.status(401).send("invalid token");
-      }
-    } else {
-      res.status(401).send("token not found");
-    }
-  } else {
-    res.status(401).send("invalid ip");
+  if (!applicationConfig) {
+    return res.status(401).send("invalid ip");
   }
+  const { token, event, channel, data }: IEmitData = req.body as IEmitData;
+  if (!token) {
+    return res.status(401).send("token not found");
+  }
+  if (token !== applicationConfig.auth_token) {
+    return res.status(401).send("invalid token");
+  }
+  if (!data) {
+    return res.status(422).send("data is required");
+  }
+  if (!channel) {
+    return res.status(422).send("channel is required");
+  }
+  if (!event) {
+    return res.status(422).send("event is required");
+  }
+  io.to(`${applicationConfig.name}:${channel}`).emit(event, data);
+  return res.send("ok");
 });
 app.listen(5002, () => {
   console.log(`http server opened on port 5002`);
@@ -49,30 +53,72 @@ console.debug("opened socket server on port 5003");
 
 io.on("connection", async (socket: Socket) => {
   console.debug(`new connection with id ${socket.id}`);
-  const query = JSON.parse(JSON.stringify(socket.handshake.query));
-  if (!query.hasOwnProperty("token")) {
-    socket.disconnect(true);
-    console.error(`connection ${socket.id} with no token`);
-    return;
-  }
-  if (!query.hasOwnProperty("application")) {
-    socket.disconnect(true);
-    console.error(`connection ${socket.id} with no application`);
-    return;
-  }
-  const { token, application } = query;
-  const applicationConfig = config.find((cnf) => cnf.name === application);
-  if (!applicationConfig) {
-    socket.disconnect(true);
-    console.error(`connection ${socket.id} with not found application`);
-    return;
-  }
-  try {
-    await checkToken(token, applicationConfig);
-    console.debug("token was valid");
-  } catch (error: any) {
-    socket.disconnect(true);
-    console.error(`connection ${socket.id} with invalid token`);
-    return;
-  }
+  socket.on("join", async (data: IJoinData, callback) => {
+    if (!data.application) {
+      callback({
+        ok: false,
+        message: "application is required",
+      });
+      return;
+    }
+    if (!data.auth_token) {
+      callback({
+        ok: false,
+        message: "auth_token is required",
+      });
+      return;
+    }
+    if (!data.channel) {
+      callback({
+        ok: false,
+        message: "channel is required",
+      });
+      return;
+    }
+    const application = config.find((cnf) => cnf.name === data.application);
+    if (!application) {
+      callback({
+        ok: false,
+        message: "application not found",
+      });
+      return;
+    }
+    try {
+      await checkAccess(data.auth_token, data.channel, application);
+    } catch (error: any) {
+      if (error.hasOwnProperty("response") && error.response) {
+        const response: AxiosResponse<any> = error.response;
+        switch (response.status) {
+          case 401:
+            callback({
+              ok: false,
+              message: "invalid token",
+            });
+            return;
+          case 403:
+            callback({
+              ok: false,
+              message: "permission denied",
+            });
+            return;
+          default:
+            callback({
+              ok: false,
+              message: "internal error",
+            });
+            return;
+        }
+      } else {
+        callback({
+          ok: false,
+          message: "internal error",
+        });
+        return;
+      }
+    }
+    socket.join(`${application.name}:${data.channel}`);
+    callback({
+      ok: true,
+    });
+  });
 });

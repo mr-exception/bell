@@ -1,12 +1,14 @@
 import { IApplicationConfig } from "../interfaces/config";
 import config from "../config";
 import Axios from "axios";
-export const checkToken = (
+export const checkAccess = (
   token: string,
+  channel: string,
   applicationConfig: IApplicationConfig
 ): Promise<void> =>
   Axios.get("/broker/verify-token", {
-    headers: { Authorization: token },
+    params: { channel },
+    headers: { Authorization: "Bearer " + token },
     baseURL: applicationConfig.base_url,
   });
 
