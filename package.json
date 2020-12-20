@@ -4,8 +4,7 @@
   "description": "a message broker based on socket.io and NodeJS",
   "main": "index.js",
   "scripts": {
-    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
-    "build": "rm -r dist && tsc --declaration --outDir dist",
+    "build": "rm -r -f dist && tsc --declaration --outDir dist",
     "start": "nodemon ./index.ts",
     "start-client": "nodemon ./client.ts"
   },

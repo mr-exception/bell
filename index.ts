@@ -47,7 +47,7 @@ app.listen(5002, () => {
 
 // whenever a user connects on port 3000 via
 // a websocket, log that a user has connected
-let io = require("socket.io")({ transports: ["websocket"] });
+const io = require("socket.io")({ transports: ["websocket"] });
 io.listen(5003);
 console.debug("opened socket server on port 5003");
 
