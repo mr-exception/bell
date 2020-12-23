@@ -11,10 +11,9 @@ services:
     ports:
       - 5002:5002
       - 5003:5003
-    networks:
-      - sparow-core
     stdin_open: true
     tty: true
 networks:
-  sparow-core:
-    external: false
+  default:
+    external:
+      name: salimon

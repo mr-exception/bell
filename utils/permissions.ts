@@ -12,5 +12,5 @@ export const checkAccess = (
     baseURL: applicationConfig.base_url,
   });
 
-export const checkIp = (serverIp: string): IApplicationConfig | undefined =>
-  config.find((cnf) => cnf.ips.find((ip) => ip === serverIp));
+export const checkToken = (token: string): IApplicationConfig | undefined =>
+  config.find((cnf) => cnf.auth_token === token);

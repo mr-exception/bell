@@ -1,6 +1,6 @@
 import express from "express";
 import { Socket } from "socket.io";
-import { checkAccess, checkIp } from "./utils/permissions";
+import { checkAccess, checkToken } from "./utils/permissions";
 import config from "./config";
 import { IJoinData } from "./interfaces/join";
 import { IEmitData } from "./interfaces/emit";
@@ -17,17 +17,10 @@ app.use(
 );
 
 app.post("/emit", (req, res) => {
-  const serverIp = req.ip;
-  const applicationConfig = checkIp(serverIp);
-  if (!applicationConfig) {
-    return res.status(401).send("invalid ip");
-  }
   const { token, event, channel, data }: IEmitData = req.body as IEmitData;
-  if (!token) {
-    return res.status(401).send("token not found");
-  }
-  if (token !== applicationConfig.auth_token) {
-    return res.status(401).send("invalid token");
+  const applicationConfig = checkToken(token);
+  if (!applicationConfig) {
+    return res.status(401).send(`invalid token`);
   }
   if (!data) {
     return res.status(422).send("data is required");
