@@ -21,6 +21,8 @@ connection.emit(
       connection.on("profile_update", (data: any) => {
         console.log(data);
       });
+    } else {
+      console.log(response);
     }
   }
 );

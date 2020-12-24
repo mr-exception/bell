@@ -35,7 +35,7 @@ app.post("/emit", (req, res) => {
   return res.send("ok");
 });
 app.listen(5002, () => {
-  console.log(`http server opened on port 5002`);
+  console.info(`http server opened on port 5002`);
 });
 
 // whenever a user connects on port 3000 via
@@ -78,33 +78,42 @@ io.on("connection", async (socket: Socket) => {
     }
     try {
       await checkAccess(data.auth_token, data.channel, application);
+      console.log(`${socket.id} joined ${data.channel}`);
     } catch (error: any) {
-      if (error.hasOwnProperty("response") && error.response) {
-        const response: AxiosResponse<any> = error.response;
-        switch (response.status) {
-          case 401:
-            callback({
-              ok: false,
-              message: "invalid token",
-            });
-            return;
-          case 403:
-            callback({
-              ok: false,
-              message: "permission denied",
-            });
-            return;
-          default:
-            callback({
-              ok: false,
-              message: "internal error",
-            });
-            return;
+      if (error.hasOwnProperty("response")) {
+        if (error.response) {
+          const response: AxiosResponse<any> = error.response;
+          switch (response.status) {
+            case 401:
+              callback({
+                ok: false,
+                message: "invalid token",
+              });
+              return;
+            case 403:
+              callback({
+                ok: false,
+                message: "permission denied",
+              });
+              return;
+            default:
+              callback({
+                ok: false,
+                message: "internal error",
+              });
+              return;
+          }
+        } else {
+          callback({
+            ok: false,
+            message: "internal error ",
+          });
+          return;
         }
       } else {
         callback({
           ok: false,
-          message: "internal error",
+          message: "internal error ",
         });
         return;
       }
