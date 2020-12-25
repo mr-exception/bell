@@ -4,7 +4,7 @@ import { checkAccess, checkToken } from "./utils/permissions";
 import config from "./config";
 import { IJoinData } from "./interfaces/join";
 import { IEmitData } from "./interfaces/emit";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const app = express();
 app.set("trust proxy", true);
@@ -78,11 +78,11 @@ io.on("connection", async (socket: Socket) => {
     }
     try {
       await checkAccess(data.auth_token, data.channel, application);
-      console.log(`${socket.id} joined ${data.channel}`);
     } catch (error: any) {
       if (error.hasOwnProperty("response")) {
         if (error.response) {
           const response: AxiosResponse<any> = error.response;
+          console.log(response.config);
           switch (response.status) {
             case 401:
               callback({
@@ -94,6 +94,12 @@ io.on("connection", async (socket: Socket) => {
               callback({
                 ok: false,
                 message: "permission denied",
+              });
+              return;
+            case 404:
+              callback({
+                ok: false,
+                message: "channel not found",
               });
               return;
             default:
