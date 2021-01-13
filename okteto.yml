@@ -4,6 +4,4 @@ command: bash
 sync:
 - .:/usr/src/app
 forward:
-- 9229:9229
 - 5002:80
-- 5003:5003
