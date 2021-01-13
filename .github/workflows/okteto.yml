@@ -9,7 +9,7 @@ jobs:
       - name: Login
         uses: actions-hub/docker/login@master
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_ID }}
+          DOCKER_USERNAME: salimondev
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push
         id: docker_build
@@ -21,7 +21,7 @@ jobs:
         uses: okteto/actions/build@v1
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
-          tag: ${{ secrets.DOCKER_ID }}/bell:${{ github.sha }}
+          tag: salimondev/bell:${{ github.sha }}
       - name: Get Kubeconfig
         uses: okteto/actions/namespace@v1
         id: namespace
