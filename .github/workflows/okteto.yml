@@ -7,10 +7,6 @@ jobs:
     - uses: okteto/login@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
-    - name: "Activate Namespace"
-      uses: okteto/namespace@master
-      with:
-        name: mr-exception
     # - name: "Deploy application"
     #   uses: okteto/apply@master
     #   with:
@@ -21,6 +17,7 @@ jobs:
       with:
         namespace: mr-exception
         name: bell
+        deploy: y
     # - name: "Build"
     #   uses: okteto/build@master
     #   with:
