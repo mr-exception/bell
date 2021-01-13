@@ -1,0 +1,5 @@
+name: bell
+image: node:15
+forward:
+  - 5002:80
+  - 5003:8080
