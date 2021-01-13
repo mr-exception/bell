@@ -15,7 +15,7 @@ jobs:
         id: docker_build
         run: docker build -t ${{ secrets.DOCKER_ID }}/bell:${{ github.sha }} .
       - name: Push
-        id: docker_build
+        id: docker_push
         run: docker push --disable-content-trust ${{ secrets.DOCKER_ID }}/bell:${{ github.sha }} .
       # - name: Build
       #   uses: okteto/actions/build@v1
