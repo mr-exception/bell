@@ -1,0 +1,9 @@
+name: bell
+image: node:15
+command: bash
+sync:
+  - .:/usr/src/app
+forward:
+  - 9229:9229
+  - 5002:3000
+  - 5003:3001
