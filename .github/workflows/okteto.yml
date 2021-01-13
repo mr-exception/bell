@@ -9,6 +9,6 @@ jobs:
       - name: install okteto
         run: okteto login --token=${{ secrets.OKTETO_TOKEN }}
       - name: just a test
-        run: ls
+        run: pwd
       - name: build and push new image
         run: okteto build -t registry.cloud.okteto.net/mr-exception/bell .
