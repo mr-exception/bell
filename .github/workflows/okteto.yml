@@ -11,4 +11,3 @@ jobs:
       uses: okteto/build@master
       with:
         tag: registry.cloud.okteto.net/mr-exception/bell:${{ github.sha }}
-        file: Dockerfile.production
