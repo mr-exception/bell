@@ -4,19 +4,19 @@ jobs:
   okteto:
     runs-on: ubuntu-latest
     steps:
-    - uses: okteto/login@master
-      with:
-        token: ${{ secrets.OKTETO_TOKEN }}
-    - name: "Deploy application"
-      uses: okteto/apply@master
-      with:
-        namespace: mr-exception
-        manifest: oktet.yaml
-    - name: "Push changes"
-      uses: okteto/push@master
-      with:
-        namespace: mr-exception
-        name: bell
+      - uses: okteto/login@master
+        with:
+          token: ${{ secrets.OKTETO_TOKEN }}
+      - name: "Deploy application"
+        uses: okteto/apply@master
+        with:
+          namespace: mr-exception
+          manifest: oktet.yaml
+      - name: "Push changes"
+        uses: okteto/push@master
+        with:
+          namespace: mr-exception
+          name: bell
     # - name: "Build"
     #   uses: okteto/build@master
     #   with:

@@ -1,8 +1,0 @@
-name: bell
-image: okteto/node:15
-command: bash
-sync:
-- .:/usr/src/app
-forward:
-- 5002:80
-- 5003:8080

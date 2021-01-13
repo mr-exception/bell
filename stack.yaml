@@ -3,6 +3,7 @@ services:
   bell:
     public: true
     image: registry.cloud.okteto.net/mr-exception/bell
+    build: .
     replicas: 1
     ports:
       - 5003
