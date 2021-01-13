@@ -1,0 +1,12 @@
+name: bell
+services:
+  bell:
+    public: true
+    image: registry.cloud.okteto.net/mr-exception/bell
+    replicas: 1
+    ports:
+      - 5003
+      - 5002
+    resources:
+      cpu: 100m
+      memory: 128Mi
