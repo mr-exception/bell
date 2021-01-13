@@ -7,11 +7,6 @@ jobs:
       - uses: okteto/login@master
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
-      - name: "Deploy application"
-        uses: okteto/apply@master
-        with:
-          namespace: mr-exception
-          manifest: oktet.yaml
       - name: "Push changes"
         uses: okteto/push@master
         with:
