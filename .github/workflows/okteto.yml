@@ -21,7 +21,7 @@ jobs:
         uses: okteto/actions/build@v1
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
-          tag: ${{ secrets.DOCKER_USERNAME }}/bell:${{ github.sha }}
+          tag: ${{ secrets.DOCKER_ID }}/bell:${{ github.sha }}
       - name: Get Kubeconfig
         uses: okteto/actions/namespace@v1
         id: namespace
