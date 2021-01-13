@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - "node"
+
+sudo: required
+
+script:
+  - curl https://get.okteto.com -sSfL | sh
