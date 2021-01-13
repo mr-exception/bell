@@ -2,7 +2,9 @@ version: "3.1"
 services:
   bell:
     container_name: bell
-    build: ./
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.development
     restart: always
     volumes:
       - ./:/usr/src/app
