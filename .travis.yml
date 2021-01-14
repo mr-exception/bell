@@ -4,3 +4,6 @@ node_js:
 sudo: required
 script:
   - curl https://get.okteto.com -sSfL | sh
+  - okteto login --token=$OKTETO_TOKEN
+  - okteto namespace mr-exception
+  - okteto build -t registry.cloud.okteto.net/mr-exception/bell .
