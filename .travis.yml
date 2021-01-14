@@ -3,6 +3,7 @@ node_js:
   - "node"
 sudo: required
 script:
+  - $CONFIG >> config.ts
   - curl https://get.okteto.com -sSfL | sh
   - okteto login --token=$OKTETO_TOKEN
   - okteto namespace mr-exception
