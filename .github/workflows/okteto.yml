@@ -9,4 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run a one-line script
-        run: echo Hello, world!
+        run: pwd
+      - name: Login
+        uses: actions-hub/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_ID }} 
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
