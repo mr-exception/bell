@@ -4,8 +4,10 @@ services:
     container_name: bell
     build:
       context: ./
-      dockerfile: ./Dockerfile.development
+      dockerfile: ./Dockerfile
     restart: always
+    environment:
+      - CONFIGS=sparow,test-auth-token,http://sparow_core/api@sparow,test-auth-token,http://sparow_core/api
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
