@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Create config file
-        run: 'ls'
+        run: 'echo $CONFIG_TS'
         shell: bash
         env:
           CONFIG_TS: ${{secrets.CONFIG_TS}}
