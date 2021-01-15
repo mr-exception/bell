@@ -11,7 +11,7 @@ jobs:
         run: 'echo "$CONFIG_TS" > config.ts'
         shell: bash
         env:
-          SSH_KEY: ${{secrets.CONFIG_TS}}
+          CONFIG_TS: ${{secrets.CONFIG_TS}}
       - name: Login
         uses: actions-hub/docker/login@master
         env:
