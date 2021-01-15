@@ -8,7 +8,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Create config file
-        run: cd ../ && ${{ secrets.CONFIG_TS }} >> config.ts
+        run: 'echo "$CONFIG_TS" > config.ts'
+        shell: bash
+        env:
+          SSH_KEY: ${{secrets.CONFIG_TS}}
       - name: Login
         uses: actions-hub/docker/login@master
         env:
