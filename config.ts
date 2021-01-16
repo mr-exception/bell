@@ -9,5 +9,4 @@ const config: IApplicationConfig[] = process.env.CONFIGS.split("@").map(
     };
   }
 );
-console.log(config);
 export default config;

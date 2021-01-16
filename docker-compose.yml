@@ -7,7 +7,7 @@ services:
       dockerfile: ./Dockerfile
     restart: always
     environment:
-      - CONFIGS=sparow,test-auth-token,http://sparow_core/api@sparow,test-auth-token,http://sparow_core/api
+      - CONFIGS=sparow,test-auth-token,http://sparow_core/api
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
