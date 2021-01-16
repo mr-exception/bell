@@ -15,7 +15,7 @@ spec:
         app: bell
     spec:
       containers:
-        - image: salimondev/bell:latest
+        - image: okteto.dev/bell:${OKTETO_GIT_COMMIT}
           imagePullPolicy: IfNotPresent
           name: bell
           ports:
