@@ -21,7 +21,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v2.2.2
         with:
-          tags: salimondev/bell:${{ github.sha }}
+          tags: salimondev/bell:latest
           push: true
       - name: Login to Okteto
         uses: okteto/login@master
