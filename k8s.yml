@@ -41,7 +41,7 @@ spec:
       terminationGracePeriodSeconds: 0
       initContainers:
         - name: load
-          image: docker.io/salimondev/bell
+          image: salimondev/bell:latest
           imagePullPolicy: Always
           resources:
             limits:
@@ -49,7 +49,7 @@ spec:
               memory: 128Mi
       containers:
         - name: core
-          image: docker.io/salimondev/bell
+          image: salimondev/bell:latest
           imagePullPolicy: Always
           ports:
             - name: api
