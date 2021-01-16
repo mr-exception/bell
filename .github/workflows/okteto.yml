@@ -21,6 +21,14 @@ jobs:
         with:
           tags: salimondev/bell:${{ github.sha }}
           push: true
+      - name: Login to Okteto
+        uses: okteto/login@master
+        with:
+          token: ${{ secrets.OKTETO_TOKEN }}
+      - name: Set namespace for Okteto
+        uses: okteto/namespace@master
+        with:
+          namespace: mr-exception
       - name: Deploy Stack
         uses: okteto/deploy-stack@v4.1
         with:
