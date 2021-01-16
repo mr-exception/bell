@@ -1,0 +1,9 @@
+name: api
+command: ["bash"]
+forward:
+  - 5002:80
+  - 5003:8080
+sync:
+  - .:/
+persistentVolume:
+  enabled: false
