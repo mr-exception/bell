@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: bell-service
   labels:
-    app.kubernetes.io/instance: bell-service
+    app.kubernetes.io/instance: bell
 spec:
   type: ClusterIP
   ports:
@@ -17,6 +17,7 @@ spec:
       name: socket
   selector:
     app.kubernetes.io/instance: bell
+    app.kubernetes.io/name: bell-service
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -26,6 +27,10 @@ metadata:
     app.kubernetes.io/instance: bell
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bell-service
+      app.kubernetes.io/instance: bell
   template:
     spec:
       terminationGracePeriodSeconds: 0
