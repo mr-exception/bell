@@ -19,6 +19,8 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v2.2.2
         with:
+          DOCKER_USERNAME: salimondev 
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
           tags: salimondev/bell:latest
           push: true
       
