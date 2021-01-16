@@ -32,6 +32,11 @@ spec:
       app.kubernetes.io/name: bell-service
       app.kubernetes.io/instance: bell
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: bell-service
+        app.kubernetes.io/instance: bell
+        app.kubernetes.io/component: core
     spec:
       terminationGracePeriodSeconds: 0
       initContainers:
@@ -43,7 +48,7 @@ spec:
               cpu: 250m
               memory: 128Mi
       containers:
-        - name: api
+        - name: core
           image: docker.io/salimondev/bell
           imagePullPolicy: Always
           ports:
