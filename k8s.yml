@@ -44,11 +44,9 @@ spec:
           ports:
             - name: api
               containerPort: 5002
-              targetPort: 80
               protocol: TCP
             - name: socket
               containerPort: 5003
-              targetPort: 8080
               protocol: TCP
           resources:
             limits:
