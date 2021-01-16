@@ -23,15 +23,15 @@ jobs:
         with:
           tags: salimondev/bell:latest
           push: true
-      - name: Login to Okteto
-        uses: okteto/login@master
-        with:
-          token: ${{ secrets.OKTETO_TOKEN }}
-      - name: Activate Namespace
-        uses: okteto/namespace@v4.1
-        with:
-          namespace: mr-exception
-      - name: Deploy Stack
-        uses: okteto/apply@master
-        with:
-          manifest: k8s
+      # - name: Login to Okteto
+      #   uses: okteto/login@master
+      #   with:
+      #     token: ${{ secrets.OKTETO_TOKEN }}
+      # - name: Activate Namespace
+      #   uses: okteto/namespace@v4.1
+      #   with:
+      #     namespace: mr-exception
+      # - name: Deploy Stack
+      #   uses: okteto/apply@master
+      #   with:
+      #     manifest: k8s
