@@ -21,4 +21,8 @@ jobs:
         with:
           tags: salimondev/bell:${{ github.sha }}
           push: true
-      
+      - name: Deploy Stack
+        uses: okteto/deploy-stack@v4.1
+        with:
+          namespace: mr-exception
+          name: bell
