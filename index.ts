@@ -35,7 +35,7 @@ app.post("/emit", (req, res) => {
   return res.send("ok");
 });
 app.listen(5002, () => {
-  console.info(`http server opened on port 5002`);
+  console.info(`Rest APIs port: 5002`);
 });
 
 // whenever a user connects on port 3000 via
