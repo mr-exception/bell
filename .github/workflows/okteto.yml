@@ -19,6 +19,6 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v2.2.2
         with:
-          tags: salimondev/bell:${{ secrets.GITHUB_SHA }}
+          tags: salimondev/bell:${{ github.sha }}
           push: true
       
