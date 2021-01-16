@@ -42,7 +42,7 @@ app.listen(5002, () => {
 // a websocket, log that a user has connected
 const io = require("socket.io")({ transports: ["websocket"] });
 io.listen(5003);
-console.debug("opened socket server on port 5003");
+console.debug("socket is live on 5003");
 
 io.on("connection", async (socket: Socket) => {
   console.debug(`new connection with id ${socket.id}`);
