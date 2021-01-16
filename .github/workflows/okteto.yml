@@ -7,6 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
+      - name: checkout
+        uses: actions/checkout@master
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -14,8 +16,8 @@ jobs:
       - name: Login to docker
         uses: docker/login-action@v1.8.0
         with:
-          username: salimondev 
-          password: ${{ secrets.DOCKER_PASSWORD }} 
+          username: salimondev
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push Docker images
         uses: docker/build-push-action@v2.2.2
         with:
@@ -25,8 +27,11 @@ jobs:
         uses: okteto/login@master
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
-      - name: Deploy Stack
-        uses: okteto/deploy-stack@v4.1
+      - name: Activate Namespace
+        uses: okteto/namespace@v4.1
         with:
           namespace: mr-exception
-          name: bell
+      - name: Deploy Stack
+        uses: okteto/apply@master
+        with:
+          manifest: k8s.yml

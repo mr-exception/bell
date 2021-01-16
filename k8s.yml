@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bell
+  labels:
+    app.kubernetes.io/instance: bell
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5002
+      targetPort: 80
+      protocol: TCP
+      name: api
+    - port: 5003
+      targetPort: 8080
+      protocol: TCP
+      name: api
+  selector:
+    app.kubernetes.io/instance: bell
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bell
+  labels:
+    app.kubernetes.io/instance: bell
+spec:
+  replicas: 1
+  template:
+    spec:
+      terminationGracePeriodSeconds: 0
+      initContainers:
+        - name: load
+          image: docker.io/salimondev/bell
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 250m
+              memory: 128Mi
+      containers:
+        - name: api
+          image: docker.io/salimondev/bell
+          imagePullPolicy: Always
+          ports:
+            - name: api
+              containerPort: 5002
+              targetPort: 80
+              protocol: TCP
+            - name: api
+              containerPort: 5003
+              targetPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 250m
+              memory: 128Mi
