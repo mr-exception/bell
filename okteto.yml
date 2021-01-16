@@ -1,4 +1,4 @@
-name: api
+name: core
 command: ["bash"]
 forward:
   - 5002:80
