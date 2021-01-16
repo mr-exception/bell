@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: bell-service
   labels:
-    app.kubernetes.io/instance: bell
+    app.kubernetes.io/instance: bell-service
 spec:
   type: ClusterIP
   ports:
@@ -14,7 +14,7 @@ spec:
     - port: 5003
       targetPort: 8080
       protocol: TCP
-      name: api
+      name: socket
   selector:
     app.kubernetes.io/instance: bell
 ---
@@ -46,7 +46,7 @@ spec:
               containerPort: 5002
               targetPort: 80
               protocol: TCP
-            - name: api
+            - name: socket
               containerPort: 5003
               targetPort: 8080
               protocol: TCP
