@@ -21,6 +21,6 @@ jobs:
         with:
           DOCKER_USERNAME: salimondev 
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
-          tags: salimondev/bell:latest
+          tags: salimondev/bell:${{ secrets.GITHUB_SHA }}
           push: true
       
