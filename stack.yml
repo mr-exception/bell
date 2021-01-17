@@ -1,0 +1,13 @@
+name: bell
+services:
+  bell:
+    public: true
+    image: okteto/bell:latest
+    build: .
+    replicas: 1
+    ports:
+      - 5002
+      - 5003
+    resources:
+      cpu: 100m
+      memory: 128Mi
