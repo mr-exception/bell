@@ -1,3 +1,4 @@
 icon: https://apps.okteto.com/movies/icon.png
 deploy:
-  - okteto build -t okteto.dev/bell:latest .
+  - okteto build -t okteto.dev/bell
+  - helm upgrade --install bell chart --set tag=${OKTETO_GIT_COMMIT}
