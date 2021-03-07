@@ -32,6 +32,7 @@ app.post("/emit", (req, res) => {
     return res.status(422).send("event is required");
   }
   io.to(`${applicationConfig.name}:${channel}`).emit(event, data);
+  console.log(`emited ${applicationConfig.name}:${channel} event: ${event} data: ${data}`);
   return res.send("ok");
 });
 app.listen(5002, () => {
@@ -124,6 +125,7 @@ io.on("connection", async (socket: Socket) => {
         return;
       }
     }
+    console.debug(`${socket.id} joined ${application.name}:${data.channel}`);
     socket.join(`${application.name}:${data.channel}`);
     callback({
       ok: true,
